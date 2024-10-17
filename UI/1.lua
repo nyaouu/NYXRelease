@@ -95,7 +95,7 @@ end
 function Library:change_theme(toTheme)
 	Library.CurrentTheme = toTheme
 	local c = self:lighten(toTheme.Tertiary, 10)
-	Library.DisplayName.Text = "<font color='rgb(" ..  math.floor(c.R*255) .. "," .. math.floor(c.G*255) .. "," .. math.floor(c.B*255) .. ")'> <b>" .. toTheme.Name .. "</b> </font>"
+	Library.DisplayName.Text = "<font color='rgb(" ..  math.floor(c.R*255) .. "," .. math.floor(c.G*255) .. "," .. math.floor(c.B*255) .. ")'> <b>" .. "NYX Community" .. "</b> </font>"
 	for color, objects in next, Library.ThemeObjects do
 		local themeColor = Library.CurrentTheme[color]
 		for _, obj in next, objects do
@@ -397,28 +397,27 @@ function Library:create(options)
 	}
 
 	if readfile and writefile and isfile then
-		if not isfile("NYXSettings.json") then
-			writefile("NYXSettings.json", HTTPService:JSONEncode(settings))
+		if not isfile("MercurySettings.json") then
+			writefile("MercurySettings.json", HTTPService:JSONEncode(settings))
 		end
-		settings = HTTPService:JSONDecode(readfile("NYXSettings.json"))
+		settings = HTTPService:JSONDecode(readfile("MercurySettings.json"))
 		Library.CurrentTheme = Library.Themes[settings.Theme]
 		updateSettings = function(property, value)
 			settings[property] = value
-			writefile("NYXSettings.json", HTTPService:JSONEncode(settings))
+			writefile("MercurySettings.json", HTTPService:JSONEncode(settings))
 		end
 	end
 
 	options = self:set_defaults({
-		Name = "NYX",
+		Name = "Mercury",
 		Size = UDim2.fromOffset(600, 400),
 		Theme = self.Themes[settings.Theme],
-		Link = "https://github.com/deeeity/mercury-lib",
-        Description = "NYX"
+		Link = "https://github.com/deeeity/mercury-lib"
 	}, options)
 	
-	if getgenv and getgenv().NYXUI then
-		getgenv():NYXUI()
-		getgenv().NYXUI = nil
+	if getgenv and getgenv().MercuryUI then
+		getgenv():MercuryUI()
+		getgenv().MercuryUI = nil
 	end
 
 	
@@ -567,7 +566,7 @@ function Library:create(options)
 	end
 	
 	if getgenv then
-		getgenv().NYXUI = closeUI
+		getgenv().MercuryUI = closeUI
 	end
 		
 	closeButton.MouseButton1Click:connect(function()
@@ -749,14 +748,13 @@ function Library:create(options)
 		Size = UDim2.fromOffset(80, 80)
 	}):round(100)
 
-	local displayName;
-    do
+	local displayName; do
 		local h, s, v = Color3.toHSV(options.Theme.Tertiary)
 		local c = self:lighten(options.Theme.Tertiary, 20)
 
 		local displayName = profile:object("TextLabel", {
 			RichText = true,
-			Text = "<font color='rgb(" ..  math.floor(c.R*255) .. "," .. math.floor(c.G*255) .. "," .. math.floor(c.B*255) .. ")'> <b>" .. options.Name .. "</b> </font>",
+			Text = "<font color='rgb(" ..  math.floor(c.R*255) .. "," .. math.floor(c.G*255) .. "," .. math.floor(c.B*255) .. ")'> <b>" .. "NYX Community" .. "</b> </font>",
 			TextScaled = true, -- 0, 120,0, 48
 			Position = UDim2.new(0, 110,0, 10),
 			Theme = {TextColor3 = {"Tertiary", 10}},
@@ -766,9 +764,9 @@ function Library:create(options)
 		})
 		Library.DisplayName = displayName
 	end
-    
+
 	local profileName = profile:object("TextLabel", {
-		Text = options.Description,
+		Text = "nil",
 		TextScaled = true,
 		Position = UDim2.new(0, 120,0, 48),
 		Theme = {TextColor3 = "Tertiary"},
@@ -897,6 +895,8 @@ function Library:create(options)
 	})
 
 	rawset(mt, "creditsContainer", creditsTab.container)
+
+    creditsTab:credit{Name = "NYX", Description = "Script Developer", Discord = "nyaouu#0001", V3rmillion = "nyaouu"}
 
 	creditsTab:credit{Name = "Abstract", Description = "UI Library Developer", Discord = "Abstract#8007", V3rmillion = "AbstractPoo"}
 	creditsTab:credit{Name = "Deity", Description = "UI Library Developer", Discord = "Deity#0228", V3rmillion = "0xDEITY"}
